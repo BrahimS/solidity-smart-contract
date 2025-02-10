@@ -12,8 +12,13 @@ contract SimpleStorage {
 
     uint256 public favorite256Num;
 
-    // Transaction function
+    // Transaction function: stores a new value for favorite256Num
     function store(uint256 _favorite256Num) public {
         favorite256Num = _favorite256Num;
+    }
+
+    // view function: returns the current value of favorite256Num
+    function getFavorite256Num() public view returns (uint256) {
+        return favorite256Num;
     }
 }
