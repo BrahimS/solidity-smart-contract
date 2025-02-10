@@ -9,5 +9,11 @@ contract SimpleStorage {
     address myAddress = 0x3C44CdDdB6a900fa2b585dd299e03d12FA4293BC;
     bytes32 myString = "Hello, World!";
     string myFavoriteText = "This is a long text";
+
     uint256 public favorite256Num;
+
+    // Transaction function
+    function store(uint256 _favorite256Num) public {
+        favorite256Num = _favorite256Num;
+    }
 }
