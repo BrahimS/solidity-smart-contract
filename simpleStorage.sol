@@ -11,6 +11,7 @@ contract SimpleStorage {
     string myFavoriteText = "This is a long text";
 
     uint256 public favorite256Num;
+    mapping(string => uint16) public nameToAge;
 
     // Transaction function: stores a new value for favorite256Num
     function store(uint256 _favorite256Num) public {
@@ -39,5 +40,6 @@ contract SimpleStorage {
         address _addressBookAddress
     ) public {
         myPersonList.push(Person(_name, _age, _addressBookAddress));
+        nameToAge[_name] = _age;
     }
 }
