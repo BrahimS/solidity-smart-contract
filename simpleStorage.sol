@@ -21,4 +21,23 @@ contract SimpleStorage {
     function getFavorite256Num() public view returns (uint256) {
         return favorite256Num;
     }
+
+    struct Person {
+        string name;
+        uint16 age;
+        address addressBookAddress;
+    }
+
+    // Dynamic array
+    Person[] public myPersonList;
+
+    // Static array
+    // Person[3] public myPersonList;
+    function addPerson(
+        string memory _name,
+        uint16 _age,
+        address _addressBookAddress
+    ) public {
+        myPersonList.push(Person(_name, _age, _addressBookAddress));
+    }
 }
