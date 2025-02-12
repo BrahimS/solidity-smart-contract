@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.0;
 
 contract SimpleStorage {
     // Basic types: boolean, uint8, uint16, uint256,int,string, address, bytes
@@ -14,7 +14,7 @@ contract SimpleStorage {
     mapping(string => uint16) public nameToAge;
 
     // Transaction function: stores a new value for favorite256Num
-    function store(uint256 _favorite256Num) public {
+    function store(uint256 _favorite256Num) public virtual {
         favorite256Num = _favorite256Num;
     }
 
