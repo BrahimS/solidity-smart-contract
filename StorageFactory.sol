@@ -21,10 +21,14 @@ contract StorageFactory {
         // In order to interfere with a contract, i will need two things:
         // 1 - Adress
         // 2 - ABI - Application Binary Interface
-        SimpleStorage mySimpleStorage = listOfSimpleStorageContracts[
-            _simpleStorageIndex
-        ];
-        mySimpleStorage.store(_newSimpleStorageNumber);
+        // SimpleStorage mySimpleStorage = listOfSimpleStorageContracts[
+        //     _simpleStorageIndex
+        // ];
+        // mySimpleStorage.store(_newSimpleStorageNumber);
+        return
+            listOfSimpleStorageContracts[_simpleStorageIndex].store(
+                _newSimpleStorageNumber
+            );
     }
 
     function getSimpleForege(
