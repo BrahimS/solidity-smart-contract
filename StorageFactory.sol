@@ -30,9 +30,12 @@ contract StorageFactory {
     function getSimpleForege(
         uint256 _simpleStorageIndex
     ) public view returns (uint256) {
-        SimpleStorage mySimpleStorage = listOfSimpleStorageContracts[
-            _simpleStorageIndex
-        ];
-        return mySimpleStorage.getFavorite256Num();
+        // SimpleStorage mySimpleStorage = listOfSimpleStorageContracts[
+        //     _simpleStorageIndex
+        // ];
+        // return mySimpleStorage.getFavorite256Num();
+        return
+            listOfSimpleStorageContracts[_simpleStorageIndex]
+                .getFavorite256Num();
     }
 }
