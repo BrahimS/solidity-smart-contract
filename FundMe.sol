@@ -11,6 +11,9 @@ contract FundMe {
     2 - Withdraw funds
     3 - Set a minimum funding value un USD
     */
+    address[] public funders;
+    mapping(address funder => uint256 amountFunded)
+        public addressToAmountFunded;
     uint256 public minimumUsd = 2e18;
 
     function fund() public payable {
@@ -21,6 +24,10 @@ contract FundMe {
             getConversionRate(msg.value) >= minimumUsd,
             "You can't send less than 1 Ether"
         );
+        funders.push(msg.sender);
+        addressToAmountFunded[msg.sender] =
+            addressToAmountFunded[msg.sender] +
+            msg.value;
     }
 
     function getPrice() public view returns (uint256) {
