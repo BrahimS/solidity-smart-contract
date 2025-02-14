@@ -28,9 +28,17 @@ contract FundMe {
             "You can't send less than 1 Ether"
         );
         funders.push(msg.sender);
-        addressToAmountFunded[msg.sender] =
-            addressToAmountFunded[msg.sender] +
-            msg.value;
+        // addressToAmountFunded[msg.sender] =
+        //     addressToAmountFunded[msg.sender] +
+        //     msg.value;
+         funders.push(msg.sender);
+        addressToAmountFunded[msg.sender]  += msg.value;
+    }
+       function withdaw() public {
+          for(uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
+              address funder = funders[funderIndex];
+            addressToAmountFunded[funder] = 0;
+          }
     }
 
 }
