@@ -3,6 +3,7 @@
 pragma solidity ^0.8.18;
 
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
+import {PriceConverter} from "./libs/PriceConverter.sol";
 
 contract FundMe {
     /*
@@ -11,6 +12,8 @@ contract FundMe {
     2 - Withdraw funds
     3 - Set a minimum funding value un USD
     */
+    using PriceConverter for uint256;
+
     address[] public funders;
     mapping(address funder => uint256 amountFunded)
         public addressToAmountFunded;
@@ -21,7 +24,7 @@ contract FundMe {
         // Have a minimum $ sent
         //// 1 - How do we send ETH to this contract
         require(
-            getConversionRate(msg.value) >= minimumUsd,
+            msg.value.getConversionRate() >= minimumUsd,
             "You can't send less than 1 Ether"
         );
         funders.push(msg.sender);
@@ -30,20 +33,4 @@ contract FundMe {
             msg.value;
     }
 
-    function getPrice() public view returns (uint256) {
-        // address: 0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43
-        AggregatorV3Interface priceFeed = AggregatorV3Interface(
-            0x1b44F3514812d835EB1BDB0acB33d3fA3351Ee43
-        );
-        (, int256 price, , , ) = priceFeed.latestRoundData();
-        return uint256(price * 1e18);
-    }
-
-    function getConversionRate(
-        uint256 ethAmount
-    ) public view returns (uint256) {
-        uint256 ethPrice = getPrice();
-        uint256 ethAmountInUsd = (ethPrice * ethAmount) / 1e18;
-        return ethAmountInUsd;
-    }
 }
