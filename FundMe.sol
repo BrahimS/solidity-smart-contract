@@ -5,6 +5,11 @@ pragma solidity ^0.8.18;
 import {AggregatorV3Interface} from "@chainlink/contracts/src/v0.8/shared/interfaces/AggregatorV3Interface.sol";
 import {PriceConverter} from "./libs/PriceConverter.sol";
 
+
+error NotOwner();
+error FailedCall();
+error FailedToSend();
+
 contract FundMe {
     /*
     Tasks:
@@ -52,15 +57,18 @@ contract FundMe {
         payable(msg.sender).transfer(address(this).balance);
         // send
         bool sendSuccess = payable(msg.sender).send(address(this).balance);
-        require(sendSuccess, "Faild to send");
+        // require(sendSuccess, "Faild to send");
+        if(!sendSuccess) {revert FailedToSend();}
         // call
         (bool successCalled, ) = payable(msg.sender).call{value: address(this).balance}("");
-        require(successCalled, "Faild call");
+        //require(successCalled, "Faild call");
+        if( !successCalled){revert FailedCall();}
     }
 
     // Modifier
     modifier onlyOwner() {
-        require(msg.sender == i_owner, "Must be owner to perform this action");
+        // require(msg.sender == i_owner, "Must be owner to perform this action");
+        if(msg.sender != i_owner) { revert NotOwner();}
         _;
     }
 
