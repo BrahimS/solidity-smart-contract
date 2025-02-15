@@ -12,11 +12,11 @@ contract FundMe {
     2 - Withdraw funds
     3 - Set a minimum funding value un USD
     */
-    address public owner;
+    address public immutable i_owner;
 
       // Constructor
     constructor() {
-        owner =  msg.sender;
+        i_owner =  msg.sender;
     }
 
     using PriceConverter for uint256;
@@ -25,14 +25,14 @@ contract FundMe {
 
     mapping(address funder => uint256 amountFunded)
         public addressToAmountFunded;
-    uint256 public minimumUsd = 2e18;
+    uint256 public constant MINIMUM_USD = 2e18;
 
     function fund() public payable {
         // Allowed users to send $
         // Have a minimum $ sent
         //// 1 - How do we send ETH to this contract
         require(
-            msg.value.getConversionRate() >= minimumUsd,
+            msg.value.getConversionRate() >= MINIMUM_USD,
             "You can't send less than 1 Ether"
         );
         funders.push(msg.sender);
@@ -60,7 +60,7 @@ contract FundMe {
 
     // Modifier
     modifier onlyOwner() {
-        require(msg.sender == owner, "Must be owner to perform this action");
+        require(msg.sender == i_owner, "Must be owner to perform this action");
         _;
     }
 
