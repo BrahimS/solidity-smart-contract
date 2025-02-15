@@ -12,6 +12,10 @@ contract FundMe {
     2 - Withdraw funds
     3 - Set a minimum funding value un USD
     */
+   address public owner;
+   constructor() {
+      owner = msg.sender;
+   }
     using PriceConverter for uint256;
 
     address[] public funders;
@@ -35,6 +39,7 @@ contract FundMe {
     }
 
     function withdraw() public {
+      require(msg.sender == owner, "Must be owner");
         for (uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
             address funder = funders[funderIndex];
             addressToAmountFunded[funder] = 0;
