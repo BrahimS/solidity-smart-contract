@@ -12,13 +12,17 @@ contract FundMe {
     2 - Withdraw funds
     3 - Set a minimum funding value un USD
     */
-   address public owner;
-   constructor() {
-      owner = msg.sender;
-   }
-    using PriceConverter for uint256;
+    address public owner;
 
+      // Constructor
+    constructor() {
+        owner =  msg.sender;
+    }
+
+    using PriceConverter for uint256;
     address[] public funders;
+
+
     mapping(address funder => uint256 amountFunded)
         public addressToAmountFunded;
     uint256 public minimumUsd = 2e18;
@@ -32,32 +36,32 @@ contract FundMe {
             "You can't send less than 1 Ether"
         );
         funders.push(msg.sender);
-        // addressToAmountFunded[msg.sender] =
-        //     addressToAmountFunded[msg.sender] +
-        //     msg.value;
         addressToAmountFunded[msg.sender]  += msg.value;
     }
 
-    function withdraw() public {
-      require(msg.sender == owner, "Must be owner");
-        for (uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
+    function withdaw() public onlyOwner {
+
+        for(uint256 funderIndex = 0; funderIndex < funders.length; funderIndex++) {
             address funder = funders[funderIndex];
-            addressToAmountFunded[funder] = 0;
+           addressToAmountFunded[funder] = 0;
         }
-        // Reset the address array
+        // Rest the address Array
         funders = new address[](0);
 
         // transfer
-        /*
         payable(msg.sender).transfer(address(this).balance);
-        */
         // send
-        /*
         bool sendSuccess = payable(msg.sender).send(address(this).balance);
-        require(sendSuccess, "Failed to send");
-        */
+        require(sendSuccess, "Faild to send");
         // call
         (bool successCalled, ) = payable(msg.sender).call{value: address(this).balance}("");
-        require(successCalled, "Failed call");
+        require(successCalled, "Faild call");
     }
+
+    // Modifier
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Must be owner to perform this action");
+        _;
+    }
+
 }
